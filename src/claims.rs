@@ -289,6 +289,9 @@ pub(crate) struct ActorMetadata {
     /// A human-readable, descriptive name for the token
     #[structopt(short = "n", long = "name")]
     name: String,
+    /// Call alias for actor-to-actor calls
+    #[structopt(short = "a", long = "alias")]
+    alias: Option<String>,
     /// Add custom capabilities
     #[structopt(short = "c", long = "cap", name = "capabilities")]
     custom_caps: Vec<String>,
@@ -423,7 +426,7 @@ fn generate_actor(actor: ActorMetadata) -> Result<String, Box<dyn ::std::error::
         actor.provider,
         actor.rev,
         actor.ver.clone(),
-        None,
+        actor.alias,
     );
 
     let jwt = claims.encode(&issuer)?;
